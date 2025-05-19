@@ -9,6 +9,7 @@
  #include <rtthread.h>
  #include <rtdevice.h>
  
+ /* 通用 GPIO 配置接口 */
  static void IC74165_SetGPIO_OUT(rt_base_t GPIO_Pin)
  {
      rt_pin_mode(GPIO_Pin, PIN_MODE_OUTPUT);
@@ -19,7 +20,16 @@
      rt_pin_mode(GPIO_Pin, PIN_MODE_INPUT);
  }
  
+ /* CLKINH 写入函数（GPIO + SPI 通用） */
+ #if (IC74165_CLKINH_ENABLE)
+ static void IC74165_ClkInhWrite(uint8_t Level)
+ {
+     rt_pin_write(CE_PIN, Level);
+ }
+ #endif
+ 
  #ifdef PKG_IC74HC165_GPIO_MODE
+ /* ====================== GPIO 模式实现 ========================== */
  
  static void IC74165_PlatformInit(void)
  {
@@ -32,13 +42,6 @@
  }
  
  static void IC74165_PlatformDeInit(void) {}
- 
- #if (IC74165_CLKINH_ENABLE)
- static void IC74165_ClkInhWrite(uint8_t Level)
- {
-     rt_pin_write(CE_PIN, Level);
- }
- #endif
  
  static void IC74165_ClkWrite(uint8_t Level)
  {
@@ -76,6 +79,7 @@
  #endif /* PKG_IC74HC165_GPIO_MODE */
  
  #ifdef PKG_IC74HC165_SPI_MODE
+ /* ====================== SPI 模式实现 ========================== */
  
  static struct rt_spi_device *spi_dev = RT_NULL;
  
@@ -111,8 +115,7 @@
      struct rt_spi_message msg = {
          .send_buf = SendData ? SendData : TxBuff,
          .recv_buf = ReceiveData,
-         .length = Len
-     };
+         .length = Len};
  
      if (rt_spi_transfer_message(spi_dev, &msg) != Len)
      {
