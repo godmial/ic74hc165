@@ -15,11 +15,11 @@
 #define IC74165_CLKINH_ENABLE 0
 #endif
 
-/* SPI 名称可配置（来自 Kconfig） */
-#define IC74165_SPI_BUS_NAME     PKG_IC74HC165_SPI_BUS_NAME
-#define IC74165_SPI_DEV_NAME     PKG_IC74HC165_SPI_DEV_NAME
+/* SPI 总线与设备名称可配置 */
+#define IC74165_SPI_BUS_NAME    PKG_IC74HC165_SPI_BUS_NAME
+#define IC74165_SPI_DEV_NAME    PKG_IC74HC165_SPI_DEV_NAME
 
-/* 默认固定引脚 */
+/* 默认引脚定义 */
 #define CP_PIN GET_PIN(A, 5)
 #define PL_PIN GET_PIN(A, 7)
 #define Q7_PIN GET_PIN(A, 6)
