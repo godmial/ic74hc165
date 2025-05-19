@@ -83,9 +83,16 @@
  
  static struct rt_spi_device *spi_dev = RT_NULL;
  
+ static int rt_hw_spi_74165_init(void)
+ {
+     rt_hw_spi_device_attach(IC74165_SPI_BUS_NAME, IC74165_SPI_DEV_NAME, GPIOB, GPIO_PIN_10);
+     return RT_EOK;
+ }
+ INIT_COMPONENT_EXPORT(rt_hw_spi_74165_init);
+ 
  static void IC74165_PlatformInit_SPI(void)
  {
-     spi_dev = (struct rt_spi_device *)rt_device_find("spi10");
+     spi_dev = (struct rt_spi_device *)rt_device_find(IC74165_SPI_DEV_NAME);
      if (spi_dev == RT_NULL)
      {
          rt_kprintf("Error: SPI device not found.\n");
@@ -117,7 +124,7 @@
          .recv_buf = ReceiveData,
          .length = Len};
  
-     if (rt_spi_transfer_message(spi_dev, &msg) != Len)
+     if (rt_spi_transfer_message(spi_dev, &msg) != RT_EOK)
      {
          rt_kprintf("spi transfer failed!\n");
      }
