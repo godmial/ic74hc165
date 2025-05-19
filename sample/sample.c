@@ -11,9 +11,9 @@ static uint8_t data[IC74HC165_NODE_COUNT];
 
 static void hc165_thread_entry(void *parameter)
 {
-#ifdef PKG_IC74HC165_GPIO_MODE
+#ifdef PKG_IC74HC165_MODE_GPIO
     IC74165_Platform_Init(&handler);
-#elif defined(PKG_IC74HC165_SPI_MODE)
+#elif defined(PKG_IC74HC165_MODE_SPI)
     IC74165_Platform_Init_SPI(&handler);
 #endif
 
