@@ -1,13 +1,16 @@
-import os
+from building import *
+import rtconfig
 
-src = []
 cwd = GetCurrentDir()
 
-src += Glob('*.c')
+src = Glob('*.c')
+CPPPATH = [cwd]
+LOCAL_CCFLAGS = ''
 
-if GetConfig('PKG_IC74HC165_SAMPLE'):
+
+if GetDepend(['PKG_IC74HC165_SAMPLE']):
     src += Glob('sample/*.c')
 
-group = DefineGroup('Package/ic74hc165', src, depend = ['RT_USING_PIN'], CPPPATH = [cwd])
+group = DefineGroup('ic74hc165', src, depend=['PKG_USING_IC74HC165'], CPPPATH=CPPPATH, LOCAL_CCFLAGS=LOCAL_CCFLAGS)
 
 Return('group')
